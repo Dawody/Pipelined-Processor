@@ -1,7 +1,8 @@
+LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_ARITH.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
-USE IEEE.NUMERIC_STD.ALL;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL; 
 
 ENTITY ALU1 IS
 generic (n:integer:=16);
@@ -21,6 +22,7 @@ process(sel,A,B,IEM2,flagi)
 variable temparith : std_logic_vector(n DOWNTO 0);
 variable tempmul : std_logic_vector((2*n)-1 DOWNTO 0);
 variable tempflag : std_logic_vector(3 DOWNTO 0);
+variable iem : integer := 0;
 begin
 	tempflag := flagi;
 
@@ -155,6 +157,7 @@ begin
 	ELSIF (sel = "10100") THEN -- add src, dst
 	temparith := ('0' & A) + B; 
 	aluo1 <= temparith(n-1 downto 0); 
+	aluo2 <= (others=>'0');
 	IF (temparith(n-1 DOWNTO 0) = (temparith(n-1 DOWNTO 0)'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
 	ELSIF (temparith(n-1) = '1') THEN 
 	tempflag(1 DOWNTO 0) := "10";
@@ -163,7 +166,8 @@ begin
 	
 	ELSIF (sel = "10101") THEN -- sub src, dst
 	temparith := ('0' & A) - B; 
-	aluo1 <= temparith(n-1 downto 0); 
+	aluo1 <= temparith(n-1 downto 0);
+	aluo2 <= (others=>'0');
 	IF (A = B) THEN tempflag(1 DOWNTO 0) := "01";
 	ELSIF (temparith(n-1) = '1') THEN 
 	tempflag(1 DOWNTO 0) := "10";
@@ -183,6 +187,7 @@ begin
 	ELSIF (sel = "10111") THEN -- and src, dst
 	temparith := '0' & (A and B); 
 	aluo1 <= temparith(n-1 DOWNTO 0);
+	aluo2 <= (others=>'0');
 	IF (A = (A'range => '0') OR B = (B'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
 	ELSIF (temparith(n-1) = '1') THEN 
 	tempflag(1 DOWNTO 0) := "10";
@@ -192,6 +197,7 @@ begin
 	ELSIF (sel = "11000") THEN -- or src, dst
 	temparith := '0' & (A or B); 
 	aluo1 <= temparith(n-1 DOWNTO 0);
+	aluo2 <= (others=>'0');
 	IF (A = (A'range => '0') AND B = (B'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
 	ELSIF (temparith(n-1) = '1') THEN 
 	tempflag(1 DOWNTO 0) := "10";
@@ -214,14 +220,39 @@ begin
 	tempflag := tempflag;
 	
 	ELSIF (sel = "11100") THEN -- shl src, imm, dst
-	aluo1 <= (A(((n-1) - IEM2) DOWNTO 0) & (others=>'0'));
-	IF(A = (A'range => '0')) THEN tempflag(0) := '0';
+	temparith := (others=>'0');
+	iem := to_integer(unsigned(IEM2));
+	temparith(n-1 DOWNTO iem-1) := A(((n-1) - iem) DOWNTO 0);
+	aluo1 <=  temparith(n-1 DOWNTO 0);
+	aluo2 <= (others=>'0');
+	IF(A = (A'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag := tempflag;
+	END IF;
+	IF(A(n-2) = '1')) THEN tempflag(1) := '1';
+	ELSIF(A(n-2) = '0')) THEN tempflag(1) := '0';
+	ELSE tempflag := tempflag;
+	END IF;
+	IF(A(n-1) = '1')) THEN tempflag(2) := '1';
+	ELSIF(A(n-1) = '0')) THEN tempflag(2) := '0';
 	ELSE tempflag := tempflag;
 	END IF;
 	
 	ELSIF (sel = "11101") THEN -- shr src, imm, dst
-	aluo1 <= ((others=>'0') & A(n-1 DOWNTO IEM2));
-	IF(A = (A'range => '0')) THEN tempflag(0) := '0';
+	temparith := (others=>'0');
+	iem := to_integer(unsigned(IEM2));
+	temparith((n-iem-1) DOWNTO 0) := A(n-1 DOWNTO iem);
+	aluo1 <=  temparith(n-1 DOWNTO 0);
+	aluo2 <= (others=>'0');
+	IF(A = (A'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag := tempflag;
+	END IF;
+	IF (iem
+	IF(A(1) = '1')) THEN tempflag(1) := '1';
+	ELSIF(A(1) = '0')) THEN tempflag(1) := '0';
+	ELSE tempflag := tempflag;
+	END IF;
+	IF(A(n-1) = '1')) THEN tempflag(2) := '1';
+	ELSIF(A(n-1) = '0')) THEN tempflag(2) := '0';
 	ELSE tempflag := tempflag;
 	END IF;
 	

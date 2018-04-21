@@ -1,0 +1,13 @@
+// memory data file (do not edit the following line - required for mem load use)
+// instance=/register_file/REG_MEMORY
+// format=mti addressradix=h dataradix=s version=1.0 wordsperline=1
+0: XXXXXXXXXXXXXXXX
+1: XXXXXXXXXXXXXXXX
+2: XXXXXXXXXXXXXXXX
+3: XXXXXXXXXXXXXXXX
+4: XXXXXXXXXXXXXXXX
+5: XXXXXXXXXXXXXXXX
+6: XXXXXXXXXXXXXXXX
+7: XXXXXXXXXXXXXXXX
+8: XXXXXXXXXXXXXXXX
+9: XXXXXXXXXXXXXXXX

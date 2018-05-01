@@ -43,7 +43,8 @@ begin
 	END IF;
 	-----------------------------------------------------------------------------------------------------------
 	IF (sel = "00000") THEN -- nop
-	aluo1 <= B + 1; --////not sure
+	temparith := ('0' & B) + 1;
+	aluo1 <= temparith((n-1) DOWNTO 0); --////not sure
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	
@@ -51,93 +52,141 @@ begin
 	tempflag(2) := '1';
 	aluo1 <= (others=>'0');
 	aluo2 <= (others=>'0');
+	tempflag := tempflag;
 	
 	
 	ELSIF (sel = "00010") THEN -- clrc
 	tempflag(2) := '0';
 	aluo1 <= (others=>'0');
 	aluo2 <= (others=>'0');
+	tempflag := tempflag;
 	
 	ELSIF (sel = "00011") THEN -- ret
-	aluo1 <= A + 1;
+	temparith := ('0' & A) + 1;
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	
 	ELSIF (sel = "00100") THEN -- rti
-	aluo1 <= A + 1;
+	temparith := ('0' & A) + 1;
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	-----------------------------------------------------------------------------------------------------------
 	ELSIF (sel = "00101") THEN -- call dst
-	aluo1 <= A - 1;
+	temparith := ('0' & A) - 1;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
-	tempflag := tempflag;
+	tempflag := tempflag; --not sure/////////////////////////////////
 	
 	ELSIF (sel = "00110") THEN -- jmp dst
-	aluo1 <= B;
+	aluo1 <= B;                    ----------->>>not sure/////////////////////////////////
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	
 	ELSIF (sel = "00111") THEN -- jz dst
-	aluo1 <= B;
+	IF (tempflag(0) = '1') THEN temparith((n-1) DOWNTO 0) := B;
+	ELSE temparith((n-1) DOWNTO 0) := (others=>'0');
+	END IF;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag(0) := '0';
 	tempflag := tempflag;
 	
 	ELSIF (sel = "01000") THEN -- jn dst
-	aluo1 <= B;
+	IF (tempflag(1) = '1') THEN temparith((n-1) DOWNTO 0) := B;
+	ELSE temparith((n-1) DOWNTO 0) := (others=>'0');
+	END IF;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag(1) := '0';
 	tempflag := tempflag;
 	
 	ELSIF (sel = "01001") THEN -- jc dst
-	aluo1 <= B;
+	IF (tempflag(2) = '1') THEN temparith((n-1) DOWNTO 0) := B;
+	ELSE temparith((n-1) DOWNTO 0) := (others=>'0');
+	END IF;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag(2) := '0';
 	tempflag := tempflag;
 	
 	ELSIF (sel = "01010") THEN -- push dst
-	aluo1 <= A - 1;
+	temparith := ('0' & A) - 1;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	
 	ELSIF (sel = "01011") THEN -- pop dst
-	aluo1 <= A + 1;
+	temparith := ('0' & A) + 1;
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
 	tempflag := tempflag;
 	
 	ELSIF (sel = "01100") THEN -- inc dst
-	aluo1 <= A + 1;
+	temparith := ('0' & A) + 1;
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	tempflag := tempflag;
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := temparith(n);
+	IF (A(n-1) = '0' and temparith(n-1) = '1') THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
+	END IF;
 	
 	ELSIF (sel = "01101") THEN -- dec dst
-	aluo1 <= A - 1;
+	temparith := ('0' & A) - 1;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
-	tempflag := tempflag;
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := temparith(n);   ----------->>>not sure/////////////////////////////////
+	IF (A(n-1) = '1' and temparith(n-1) = '0') THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
+	END IF;
 	
 	ELSIF (sel = "01110") THEN -- rlc dst
 	tempflag(2) := A(15);
-	aluo1 <= A(n-2 downto 0) & tempflag(2);
+	temparith(n) := '0';
+	temparith(n-1 DOWNTO 0) := A(n-2 downto 0) & tempflag(2);
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	tempflag := tempflag;
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	IF (A(n-1) != A(n-2)) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
+	END IF;
 	
 	ELSIF (sel = "01111") THEN -- rrc dst
 	tempflag(2) := A(0);
-	aluo1 <= tempflag(2) & A(n-1 downto 1);
-	aluo2 <= (others=>'0');
-	tempflag := tempflag;
-	
-	ELSIF (sel = "10000") THEN -- not dst
-	temparith := '0' & (not A);
+	temparith(n) := '0';
+	temparith(n-1 DOWNTO 0) := tempflag(2) & A(n-1 downto 1);
 	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF (temparith(n-1 DOWNTO 0) = (temparith(n-1 DOWNTO 0)'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (temparith(n-1) = '1') THEN 
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
-	tempflag := tempflag;
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
 	END IF;
+	tempflag(1) := temparith(n-1);
+	IF (A(n-1) != A(0)) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
+	END IF;
+	
+	ELSIF (sel = "10000") THEN -- not dst
+	temparith(n) := '0';
+	temparith((n-1) DOWNTO 0) := (not A);
+	aluo1 <= temparith(n-1 DOWNTO 0);
+	aluo2 <= (others=>'0');
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag := tempflag; --not mentioned in the document
 	
 	ELSIF (sel = "10001") THEN -- out dst
 	aluo1 <= A;
@@ -155,54 +204,61 @@ begin
 	tempflag := tempflag;
 	
 	ELSIF (sel = "10100") THEN -- add src, dst
-	temparith := ('0' & A) + B; 
-	aluo1 <= temparith(n-1 downto 0); 
+	temparith := ('0' & A) + B;
+	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF (temparith(n-1 DOWNTO 0) = (temparith(n-1 DOWNTO 0)'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (temparith(n-1) = '1') THEN 
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := temparith(n);
+	IF (A(n-1) = B(n-1) and temparith(n-1) != A(n-1)) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
 	END IF;
 	
 	ELSIF (sel = "10101") THEN -- sub src, dst
-	temparith := ('0' & A) - B; 
-	aluo1 <= temparith(n-1 downto 0);
+	temparith := ('0' & A) - B;
+	aluo1 <= temparith((n-1) DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF (A = B) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (temparith(n-1) = '1') THEN 
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
+	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := temparith(n);   ----------->>>not sure/////////////////////////////////
+	IF (A(n-1) != B(n-1) and temparith(n-1) != A(n-1)) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
 	END IF;
 	
 	ELSIF (sel = "10110") THEN -- mul src, dst 
-	tempmul := A * B;
-	aluo2 <= temparith(n-1 downto 0); 
+	tempmul := A * B; 
 	aluo1 <= temparith((2*n)-1 downto n);
-	IF (A = (A'range => '0') OR B = (B'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (tempmul((2*n)-1) = '1') THEN --//not sure
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
+	aluo2 <= temparith(n-1 downto 0);
+	IF (tempmul((2*n)-1 downto n) = (tempmul((2*n)-1 downto n)'range => '0')) THEN tempflag(3 DOWNTO 2) := "00"; --not sure/////////////////////////////////
+	ELSE tempflag(3 DOWNTO 2) := "11";
 	END IF;
+	tempflag := tempflag;
 	
 	ELSIF (sel = "10111") THEN -- and src, dst
-	temparith := '0' & (A and B); 
+	temparith(n) := '0';
+	temparith((n-1) DOWNTO 0) := (A and B);
 	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF (A = (A'range => '0') OR B = (B'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (temparith(n-1) = '1') THEN 
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
 	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag := tempflag; --not mentioned in the document
 	
 	ELSIF (sel = "11000") THEN -- or src, dst
-	temparith := '0' & (A or B); 
+	temparith(n) := '0';
+	temparith((n-1) DOWNTO 0) := (A or B); 
 	aluo1 <= temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF (A = (A'range => '0') AND B = (B'range => '0')) THEN tempflag(1 DOWNTO 0) := "01";
-	ELSIF (temparith(n-1) = '1') THEN 
-	tempflag(1 DOWNTO 0) := "10";
-	ELSE tempflag(1 DOWNTO 0) := "00";
+	IF (temparith((n-1) DOWNTO 0) = (temparith((n-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
 	END IF;
+	tempflag(1) := temparith(n-1);
+	tempflag := tempflag; --not mentioned in the document
 	
 	ELSIF (sel = "11001") THEN -- ldm dst, imm
 	aluo1 <= A;
@@ -225,16 +281,13 @@ begin
 	temparith(n-1 DOWNTO iem-1) := A(((n-1) - iem) DOWNTO 0);
 	aluo1 <=  temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF(A = (A'range => '0')) THEN tempflag(0) := '1';
-	ELSE tempflag := tempflag;
+	IF(temparith = (temparith'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
 	END IF;
-	IF(A(n-2) = '1')) THEN tempflag(1) := '1';
-	ELSIF(A(n-2) = '0')) THEN tempflag(1) := '0';
-	ELSE tempflag := tempflag;
-	END IF;
-	IF(A(n-1) = '1')) THEN tempflag(2) := '1';
-	ELSIF(A(n-1) = '0')) THEN tempflag(2) := '0';
-	ELSE tempflag := tempflag;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := A(n-iem);
+	IF(A(n-iem) != A((n-1) - iem))) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
 	END IF;
 	
 	ELSIF (sel = "11101") THEN -- shr src, imm, dst
@@ -243,17 +296,13 @@ begin
 	temparith((n-iem-1) DOWNTO 0) := A(n-1 DOWNTO iem);
 	aluo1 <=  temparith(n-1 DOWNTO 0);
 	aluo2 <= (others=>'0');
-	IF(A = (A'range => '0')) THEN tempflag(0) := '1';
-	ELSE tempflag := tempflag;
+	IF(temparith = (temparith'range => '0')) THEN tempflag(0) := '1';
+	ELSE tempflag(0) := '0';
 	END IF;
-	IF (iem
-	IF(A(1) = '1')) THEN tempflag(1) := '1';
-	ELSIF(A(1) = '0')) THEN tempflag(1) := '0';
-	ELSE tempflag := tempflag;
-	END IF;
-	IF(A(n-1) = '1')) THEN tempflag(2) := '1';
-	ELSIF(A(n-1) = '0')) THEN tempflag(2) := '0';
-	ELSE tempflag := tempflag;
+	tempflag(1) := temparith(n-1);
+	tempflag(2) := A(iem-1);
+	IF(temparith(n-1) != temparith(n-2)) THEN tempflag(3) := '1';
+	ELSE tempflag(3) := '0';
 	END IF;
 	
 	END IF;

@@ -1,3 +1,7 @@
---IF FLUSH1=1 AND FLUSH2=1 AT THE SAME TIME , IT WILL LEAD TO PROBLEM IN FETCH STAGE!
---INTERRUPT SIGNAL SHOULDN'T EQUAL (1) MORE THAN ONE CLK CYCLE.
---NEVER TO DO (INTR AND RESET) AT THE SAME TIME!
+--IF FLUSH1=1 AND FLUSH2=1 AT THE SAME TIME , IT WILL LEAD TO PROBLEM IN FETCH STAGE![__]
+--INTERRUPT SIGNAL SHOULDN'T EQUAL (1) MORE THAN ONE CLK CYCLE.[__]
+--NEVER TO DO (INTR AND RESET) AT THE SAME TIME![OK](@ least logically ok)
+--FLUSH1 AND FLUSH2 SHOULDN'T REMAIN FOR MORE THAN ONE CLK CYCLE(i optimized the buffers so in the rising_Edge of(flush) signal i will response)[OK]
+--take care of some cases when you get (flush1 & flush2 & skip_ir) signals in the same time![__]
+--write back mustn't output any garbage ! either real output to be saved or high impedance.[__]
+

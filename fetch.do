@@ -17,15 +17,24 @@ force -freeze sim:/fetch/FLU1 0 0
 force -freeze sim:/fetch/FLU2 0 0
 force -freeze sim:/fetch/CLK 0 0, 1 {50 ps} -r 100
 force -freeze sim:/fetch/SKIP_IR 0 0
-force -freeze sim:/fetch/RESET 1 0
+force -freeze sim:/fetch/RESET 0 0  
+# THIS VALUE IS NOT RESET THE REGISTER . IT IS RESET SIGNAL FOR ALL THE PROCESSOR
 force -freeze sim:/fetch/INT 0 0
 force -freeze sim:/fetch/STALL 0 0
-force -freeze sim:/fetch/M_1 16#F0F0 0
-force -freeze sim:/fetch/MEMO 16#F0F1 0
-force -freeze sim:/fetch/ALUO 16#F0F2 0
+force -freeze sim:/fetch/M_1 16#0065 0
+force -freeze sim:/fetch/MEMO 16#0067 0
+force -freeze sim:/fetch/ALUO 16#006a 0
+# ORDINARY CASE
 run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 run
 run
-
+# ALUO CASE
+force -freeze sim:/fetch/FLU1 1 0
+run
+force -freeze sim:/fetch/FLU1 0 0
+run
+force -freeze sim:/fetch/FLU2 1 0
+run
+force -freeze sim:/fetch/FLU2 0 0
+run
 

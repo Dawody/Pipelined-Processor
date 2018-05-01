@@ -94,7 +94,7 @@ ARCHITECTURE arch1 OF forwarding_unit IS
 	
 	if (op_mem >= "00010" and op_mem <= "00011") or (op_mem >= "00111" and op_mem <= "01001") or (op_mem >= "01100" and op_mem <= "10000") or (op_mem >= "10100" and op_mem <= "11000")   or (op_mem >= "11100" and op_mem <= "11101") then
 		tflags <= tflags_mem;
-	elsif op_alu = "00100" then
+	elsif op_mem = "00100" and ((op_mem >= "00111" and op_mem <= "01001") or (op_mem >= "01110" and op_mem <= "01111") or op_mem = "11111") then
 		stall <= '1';
 	elsif (op_wb >= "00010" and op_wb <= "00011") or (op_wb >= "00111" and op_wb <= "01001") or (op_wb >= "01100" and op_wb <= "10000") or (op_wb >= "10100" and op_wb <= "11000")   or (op_wb >= "11100" and op_wb <= "11101") or op_wb = "00100" then
 		tflags <= tflags_wb;

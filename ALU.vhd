@@ -159,7 +159,7 @@ begin
 	ELSE tempflag(0) := '0';
 	END IF;
 	tempflag(1) := temparith(n-1);
-	IF (A(n-1) != A(n-2)) THEN tempflag(3) := '1';
+	IF (A(n-1) /= A(n-2)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	
@@ -173,7 +173,7 @@ begin
 	ELSE tempflag(0) := '0';
 	END IF;
 	tempflag(1) := temparith(n-1);
-	IF (A(n-1) != A(0)) THEN tempflag(3) := '1';
+	IF (A(n-1) /= A(0)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	
@@ -212,7 +212,7 @@ begin
 	END IF;
 	tempflag(1) := temparith(n-1);
 	tempflag(2) := temparith(n);
-	IF (A(n-1) = B(n-1) and temparith(n-1) != A(n-1)) THEN tempflag(3) := '1';
+	IF (A(n-1) = B(n-1) and temparith(n-1) /= A(n-1)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	
@@ -225,7 +225,7 @@ begin
 	END IF;
 	tempflag(1) := temparith(n-1);
 	tempflag(2) := temparith(n);   ----------->>>not sure/////////////////////////////////
-	IF (A(n-1) != B(n-1) and temparith(n-1) != A(n-1)) THEN tempflag(3) := '1';
+	IF (A(n-1) /= B(n-1) and temparith(n-1) /= A(n-1)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	
@@ -286,7 +286,7 @@ begin
 	END IF;
 	tempflag(1) := temparith(n-1);
 	tempflag(2) := A(n-iem);
-	IF(A(n-iem) != A((n-1) - iem))) THEN tempflag(3) := '1';
+	IF(A(n-iem) /= A((n-1) - iem)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	
@@ -301,7 +301,7 @@ begin
 	END IF;
 	tempflag(1) := temparith(n-1);
 	tempflag(2) := A(iem-1);
-	IF(temparith(n-1) != temparith(n-2)) THEN tempflag(3) := '1';
+	IF(temparith(n-1) /= temparith(n-2)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
 	

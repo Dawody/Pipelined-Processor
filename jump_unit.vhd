@@ -22,6 +22,8 @@ ARCHITECTURE arch1 OF forwarding_unit IS
 			FLU1 <= '1';
 		elsif op_alu = "01001" and tflags(2) = '1' then
 			FLU1 <= '1';
+		elsif op_alu = "00101" then
+			FLU1 <= '1';
 		else
 			FLU1 <= '0';
 		end if;

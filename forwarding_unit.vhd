@@ -23,6 +23,7 @@ ENTITY forwarding_unit IS
 		aluo1_wb : IN std_logic_vector(15 DOWNTO 0);
 		aluo2_wb : IN std_logic_vector(15 DOWNTO 0);
 		memo_wb : IN std_logic_vector(15 DOWNTO 0);
+		IR_dec : IN std_logic_vector(15 DOWNTO 0);
 		A : OUT std_logic_vector(15 DOWNTO 0);
 		B : OUT std_logic_vector(15 DOWNTO 0);
 		tflags : OUT std_logic_vector(3 DOWNTO 0);
@@ -61,6 +62,8 @@ ARCHITECTURE arch1 OF forwarding_unit IS
 		else
 			A <= rsrc;
 		end if;
+	elsif op_alu = "10011" then
+		A <= IR_dec;
 	end if;
 	
 	

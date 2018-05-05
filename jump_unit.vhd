@@ -16,14 +16,17 @@ ARCHITECTURE JUMP_UNIT_ARCH OF JUMP_UNIT IS
 	BEGIN
 	
 	-- FLU1 <= '0';
-		if op_alu = "00111" and tflags(0) = '1' then
+		if    op_alu = "00110" then	--jmp
 			FLU1 <= '1';
-		elsif op_alu = "01000" and tflags(1) = '1' then
+		elsif op_alu = "00101" then	--call
 			FLU1 <= '1';
-		elsif op_alu = "01001" and tflags(2) = '1' then
+		elsif op_alu = "00111" and tflags(0) = '1' then	--jz
+			FLU1 <= '1';	
+		elsif op_alu = "01000" and tflags(1) = '1' then --jn
 			FLU1 <= '1';
-		elsif op_alu = "00101" then
+		elsif op_alu = "01001" and tflags(2) = '1' then --jc
 			FLU1 <= '1';
+	
 		else
 			FLU1 <= '0';
 		end if;

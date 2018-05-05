@@ -2,7 +2,7 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.numeric_std.all;
 
-ENTITY forwarding_unit IS
+ENTITY FORWARDING_UNIT IS
 	PORT(
 		op_alu 		: IN std_logic_vector(4 DOWNTO 0);
 		op_mem 		: IN std_logic_vector(4 DOWNTO 0);
@@ -28,10 +28,10 @@ ENTITY forwarding_unit IS
 		B 		:OUT std_logic_vector(15 DOWNTO 0);
 		tflags 		:OUT std_logic_vector(3 DOWNTO 0);
 		stall 		:OUT std_logic);
-END ENTITY forwarding_unit;
+END ENTITY FORWARDING_UNIT;
 
 
-ARCHITECTURE arch1 OF forwarding_unit IS
+ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 	BEGIN
 	Process (ALL)
 	BEGIN
@@ -125,6 +125,6 @@ ARCHITECTURE arch1 OF forwarding_unit IS
 		
 		
 		
-END arch1;
+END FORWARDING_UNIT_ARCH;
 
 

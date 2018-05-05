@@ -13,7 +13,7 @@ ENTITY Memory_stage IS
 		FLUSH2	:out std_logic);
 END ENTITY Memory_stage;
 
-ARCHITECTURE Arch_Memory_stage OF Memory_stage IS
+ARCHITECTURE Memory_stage_ARCH OF Memory_stage IS
 
 -----------------------------MEMORY--------------------------------
 component Memory IS
@@ -58,4 +58,4 @@ my_memory:Memory port map(MEM,tr0_out,tr1_out,MEMO);
 
 my_sp_unit_comp:MY_SP_UNIT port map(OP_MEM(4 DOWNTO 0),FLUSH2);
 
-END Arch_Memory_stage;
+END Memory_stage_ARCH;

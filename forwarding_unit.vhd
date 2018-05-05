@@ -7,22 +7,30 @@ ENTITY forwarding_unit IS
 		op_alu : IN std_logic_vector(4 DOWNTO 0);
 		op_mem : IN std_logic_vector(4 DOWNTO 0);
 		op_wb : IN std_logic_vector(4 DOWNTO 0);
+
 		rsrc_alu : IN std_logic_vector(2 DOWNTO 0);
 		rsrc_mem : IN std_logic_vector(2 DOWNTO 0);
 		rsrc_wb : IN std_logic_vector(2 DOWNTO 0);
+
 		rdst_alu : IN std_logic_vector(2 DOWNTO 0);
 		rdst_mem : IN std_logic_vector(2 DOWNTO 0);
 		rdst_wb : IN std_logic_vector(2 DOWNTO 0);
+
 		tflags_alu : IN std_logic_vector(3 DOWNTO 0);
 		tflags_mem : IN std_logic_vector(3 DOWNTO 0);
 		tflags_wb : IN std_logic_vector(3 DOWNTO 0);
+
 		rsrc : IN std_logic_vector(15 DOWNTO 0);
 		rdst : IN std_logic_vector(15 DOWNTO 0);
+
 		aluo1_mem : IN std_logic_vector(15 DOWNTO 0);
 		aluo2_mem : IN std_logic_vector(15 DOWNTO 0);
+
 		aluo1_wb : IN std_logic_vector(15 DOWNTO 0);
 		aluo2_wb : IN std_logic_vector(15 DOWNTO 0);
+
 		memo_wb : IN std_logic_vector(15 DOWNTO 0);
+
 		A : OUT std_logic_vector(15 DOWNTO 0);
 		B : OUT std_logic_vector(15 DOWNTO 0);
 		tflags : OUT std_logic_vector(3 DOWNTO 0);
@@ -32,6 +40,7 @@ END ENTITY forwarding_unit;
 
 ARCHITECTURE arch1 OF forwarding_unit IS
 	BEGIN
+
 	Process (ALL)
 	BEGIN
 	stall <= '0';

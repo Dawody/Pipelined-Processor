@@ -10,6 +10,7 @@ ENTITY Memory_stage IS
 		MEM	: in std_logic_vector(1 downto 0);
 		OP_MEM	: in std_logic_vector(4 downto 0);
 		MEMO	:out std_logic_vector(15 downto 0);
+		M_1	:OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 		FLUSH2	:out std_logic);
 END ENTITY Memory_stage;
 
@@ -22,7 +23,8 @@ component Memory IS
 		MEM  : IN std_logic_vector(1 DOWNTO 0);
 		A : IN  std_logic_vector(15 DOWNTO 0);
 		B  : IN  std_logic_vector(15 DOWNTO 0);
-		MEMO : OUT std_logic_vector(15 DOWNTO 0));
+		MEMO : OUT std_logic_vector(15 DOWNTO 0);
+		M_1	:OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
 END component;
 
 ------------------------------TRI SATTE-----------------------------------
@@ -54,7 +56,7 @@ else '0';
 ts0:tri_state  port map(A ,tr0_en,tr0_out);
 ts1:tri_state  port map(B,tr1_en,tr1_out);
 
-my_memory:Memory port map(MEM,tr0_out,tr1_out,MEMO);
+my_memory:Memory port map(MEM,tr0_out,tr1_out,MEMO,M_1);
 
 my_sp_unit_comp:MY_SP_UNIT port map(OP_MEM(4 DOWNTO 0),FLUSH2);
 

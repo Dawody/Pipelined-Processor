@@ -62,8 +62,8 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 		else
 			A <= rsrc;
 		end if;
-	elsif op_alu = "10011" then
-		A <= IR_dec;
+	elsif op_alu = "11010" OR op_alu = "11011" OR op_alu = "11001" then
+		A <= rsrc;
 	end if;
 	
 	

@@ -10,7 +10,6 @@ end mux3_WB;
 architecture Arch_mux3_WB of mux3_WB is
 begin
 DATA1<= MEMO when OP="11010"
-else B when OP="11001"
 else  ALUO1;
 end Arch_mux3_WB;
 

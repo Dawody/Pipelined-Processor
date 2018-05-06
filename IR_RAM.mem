@@ -1,9 +1,9 @@
 // memory data file (do not edit the following line - required for mem load use)
 // instance=/pu/RAM_LAB/MEMORY
 // format=bin addressradix=h dataradix=b version=1.0 wordsperline=1
-  @0 1111000011110000
-  @1 1111000011110001
-  @2 1111000011110010
+  @0 1100100001000000
+  @1 0000000000001111
+  @2 1010001001100000
   @3 1111000011110011
   @4 1111000011110100
   @5 1111000011110101

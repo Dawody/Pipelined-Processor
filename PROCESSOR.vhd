@@ -71,6 +71,7 @@ COMPONENT DECODE IS
 		R_DST_DATA_WB	:IN STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 		FLAGS_DATA_WB	:IN STD_LOGIC_VECTOR(FLAG_SIZE-1 DOWNTO 0);
 		FE_WB		:IN STD_LOGIC_VECTOR(FLAG_SIZE-1 DOWNTO 0);
+		clk		:in std_logic;
 
 		--DATA EXTRACTED FOR HE IR GOING TO EXECUTION STAGE
 		OPERATION	:OUT STD_LOGIC_VECTOR(OPCODE_SIZE-1 DOWNTO 0);
@@ -278,6 +279,7 @@ SIGNAL M_1_M_F		:STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 SIGNAL FLU1_E_X		:STD_LOGIC;
 SIGNAL FLU2_M_X		:STD_LOGIC;
 SIGNAL STALL_E_X	:STD_LOGIC;
+SIGNAL STALL_NOT_E_X	:STD_LOGIC;
 SIGNAL SKIP_IR_D_F	:STD_LOGIC;
 SIGNAL IR_F_B		:STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 SIGNAL IR_NEXT_F_B	:STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
@@ -385,7 +387,6 @@ SIGNAL DATA2_W_D 		:STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 --YOU MAY ADD THE SAME SIGNALS_B_W TO BE LIKE SIGNALS_W_D OR YOU MAY NOT!
 
 
-
 -----------------------------------------------------------------------------------------------
 
 BEGIN
@@ -396,6 +397,7 @@ BEGIN
 ------------------------------------------------------------------------------------------------------------------------------
 	
 	FLUSH <= FLU1_E_X OR FLU2_M_X;
+	STALL_NOT_E_X <= NOT STALL_E_X;
 
 
 	F : FETCH PORT MAP (
@@ -424,7 +426,7 @@ BEGIN
 		D_PC 		=> PC_F_B , 
 		CLK 		=> CLK , 
 		RST 		=> FLUSH , 
-		ENB 		=> STALL_E_X , 
+		ENB 		=> STALL_NOT_E_X , 
 		Q_IR 		=> IR_B_D , 
 		Q_IR_NEXT 	=> IR_NEXT_B_D , 
 		Q_PC 		=> PC_B_D 
@@ -437,10 +439,11 @@ BEGIN
 		PC 		=> PC_B_D , 
 		R_SRC_ADRS_WB 	=> R_SRC_ADRS_WB_W_D , 
 		R_DST_ADRS_WB 	=> R_DST_ADRS_WB_W_D , 
-		R_SRC_DATA_WB 	=> DATA1_W_D ,--R_SRC_DATA_WB_W_D , 
-		R_DST_DATA_WB 	=> DATA2_W_D ,--R_DST_DATA_WB_W_D , 
+		R_SRC_DATA_WB 	=> DATA2_W_D ,--R_SRC_DATA_WB_W_D , 
+		R_DST_DATA_WB 	=> DATA1_W_D ,--R_DST_DATA_WB_W_D , 
 		FLAGS_DATA_WB	=> FLAGS_DATA_WB_W_D , 
 		FE_WB 		=> FE_WB_W_D , 
+		clk		=> clk,
 		OPERATION 	=> OPERATION_D_B , 
 		R_SRC_DATA 	=> R_SRC_DATA_D_B , 
 		R_DST_DATA 	=> R_DST_DATA_D_B , 
@@ -466,7 +469,7 @@ BEGIN
 		D_FE 		=> FE_D_B , 
 		CLK 		=> CLK , 
 		RST 		=> FLUSH , 
-		ENB 		=> STALL_E_X , 
+		ENB 		=> STALL_NOT_E_X , 
 		Q_OPERATION 	=> OPERATION_B_E , 
 		Q_R_SRC_DATA	=> R_SRC_DATA_B_E , 
 		Q_R_DST_DATA 	=> R_DST_DATA_B_E , 

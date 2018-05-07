@@ -39,7 +39,7 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 	
 	
 	if (op_alu >= "10011" and op_alu <= "11000") or (op_alu >= "00011" and op_alu <= "00101") or op_alu = "01010" or op_alu = "01011" or op_alu = "11111" then
-		if rsrc_alu = rdst_mem and op_mem >= "01100" and op_alu <= "11101" and op_alu /= "10001" and op_alu /= "11011" and op_mem /= "11010" then
+		if rsrc_alu = rdst_mem and op_mem >= "01100" and op_mem <= "11101" and op_mem /= "10001" and op_mem /= "11011" and op_mem /= "11010" then
 			A <= aluo1_mem;
 		elsif rsrc_alu = rdst_mem and (op_mem = "01011" or op_mem = "11010") then
 			stall <= '1';
@@ -49,7 +49,7 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 			elsif op_mem = "10110" then
 				A <= aluo2_mem;
 			end if;
-		elsif rsrc_alu = rdst_wb and op_wb >= "01100" and op_wb <= "11101" and op_wb /= "10001" and op_wb /= "11011" and op_mem /= "11010" and op_mem /= "01011" then
+		elsif rsrc_alu = rdst_wb and op_wb >= "01100" and op_wb <= "11101" and op_wb /= "10001" and op_wb /= "11011" and op_wb /= "11010" and op_wb /= "01011" then
 			A <= aluo1_wb;
 		elsif rsrc_alu = rdst_mem and (op_wb = "01011" or op_wb = "11010") then
 			A <= memo_wb;
@@ -78,7 +78,7 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 			elsif op_mem = "10110" then
 				B <= aluo2_mem;
 			end if;
-		elsif rdst_alu = rdst_wb and op_wb >= "01100" and op_wb <= "11101" and op_wb /= "10001" and op_wb /= "11011" and op_mem /= "11010" and op_mem /= "01011" then
+		elsif rdst_alu = rdst_wb and op_wb >= "01100" and op_wb <= "11101" and op_wb /= "10001" and op_wb /= "11011" and op_wb /= "11010" and op_wb /= "01011" then
 			B <= aluo1_wb;
 		elsif rdst_alu = rdst_mem and (op_wb = "01011" or op_wb = "11010") then
 			B <= memo_wb;

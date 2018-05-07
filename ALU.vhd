@@ -75,7 +75,7 @@ begin
 	tempflag := tempflag;
 	-----------------------------------------------------------------------------------------------------------
 	ELSIF (sel = "00101") THEN -- call dst
-	temparith := ('0' & A) - 1;
+	temparith := ('0' & B) - 1;
 	tempaluo1 := temparith((n-1) DOWNTO 0);
 	tempaluo2 := (others=>'0');
 	tempflag := tempflag; --not sure/////////////////////////////////
@@ -195,7 +195,7 @@ begin
 	tempflag := tempflag;
 	
 	ELSIF (sel = "10010") THEN -- in dst
-	tempaluo1 := B;
+	tempaluo1 := A;
 	tempaluo2 := (others=>'0');
 	tempflag := tempflag;
 	-----------------------------------------------------------------------------------------------------------
@@ -232,8 +232,8 @@ begin
 	
 	ELSIF (sel = "10110") THEN -- mul src, dst 
 	tempmul := A * B; 
-	tempaluo1 := tempmul((2*n)-1 downto n);
-	tempaluo2 := tempmul(n-1 downto 0);
+	tempaluo1 := tempmul(n-1 downto 0);
+	tempaluo2 := tempmul((2*n)-1 downto n);
 	IF (tempmul(((2*n)-1) DOWNTO 0) = (tempmul(((2*n)-1) DOWNTO 0)'range => '0')) THEN tempflag(0) := '1';
 	ELSE tempflag(0) := '0';
 	END IF;

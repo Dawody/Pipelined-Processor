@@ -113,11 +113,12 @@ END COMPONENT;
 
 
 --------------------------JUMP UNIT-------------------------------------
-COMPONENT JUMP IS
+COMPONENT JUMP_UNIT IS
 	PORT( 
-		tFLAGS	: IN std_logic_vector(3 DOWNTO 0);
-		OPALU	: IN std_logic_vector(4 DOWNTO 0);
-		flu	:OUT std_logic);
+	
+		op_alu	: IN std_logic_vector(4 DOWNTO 0);
+		tflags	: IN std_logic_vector(3 DOWNTO 0);
+		FLU1	:OUT std_logic);
 END COMPONENT;
 
 --------------------------SIGNALS AREA-----------------------------------
@@ -129,10 +130,10 @@ SIGNAL ALU_BBB	:STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);	-- THIS SIGNAL TO SOLVE 
 
 BEGIN
 
-	JMP_UNIT : JUMP PORT MAP(
-		tFLAGS	=> ALU_FLAG ,
-		OPALU	=> OPERATION_ALU ,
-		flu	=> FLUSH
+	JU : JUMP_UNIT PORT MAP(
+		tflags	=> ALU_FLAG ,
+		op_alu	=> OPERATION_ALU ,
+		FLU1	=> FLUSH
 	);
 
 

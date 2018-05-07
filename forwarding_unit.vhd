@@ -90,7 +90,7 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 				B <= aluo2_wb;
 			end if;
 		else
-			B <= rsrc;
+			B <= rdst;
 		end if;
 	end if;
 	

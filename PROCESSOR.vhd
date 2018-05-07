@@ -468,7 +468,7 @@ BEGIN
 		D_MEM_R_W 	=> MEM_R_W_D_B , 
 		D_FE 		=> FE_D_B , 
 		CLK 		=> CLK , 
-		RST 		=> FLUSH , 
+		RST 		=> FLU2_M_X , 
 		ENB 		=> STALL_NOT_E_X , 
 		Q_OPERATION 	=> OPERATION_B_E , 
 		Q_R_SRC_DATA	=> R_SRC_DATA_B_E , 

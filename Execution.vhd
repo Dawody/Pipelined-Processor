@@ -100,7 +100,7 @@ COMPONENT FORWARDING_UNIT IS
 		aluo2_wb 	: IN std_logic_vector(15 DOWNTO 0);
 
 		memo_wb 	: IN std_logic_vector(15 DOWNTO 0);
-		IR_dec 		: IN std_logic_vector(15 DOWNTO 0);
+		PC_dec 		: IN std_logic_vector(15 DOWNTO 0);
 
 		A 		:OUT std_logic_vector(15 DOWNTO 0);
 		B 		:OUT std_logic_vector(15 DOWNTO 0);
@@ -164,7 +164,7 @@ BEGIN
 		aluo2_wb  	=> ALUO2_WB ,
 
 		memo_wb  	=> MEMO_WB ,
-		IR_dec  	=> IR_DEC ,
+		PC_dec  	=> PC ,
 
 
 		A  		=> ALU_A ,

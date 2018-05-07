@@ -23,7 +23,7 @@ ENTITY FORWARDING_UNIT IS
 		aluo1_wb 	: IN std_logic_vector(15 DOWNTO 0);
 		aluo2_wb 	: IN std_logic_vector(15 DOWNTO 0);
 		memo_wb 	: IN std_logic_vector(15 DOWNTO 0);
-		IR_dec 		: IN std_logic_vector(15 DOWNTO 0);
+		PC_dec 		: IN std_logic_vector(15 DOWNTO 0);
 		A 		:OUT std_logic_vector(15 DOWNTO 0);
 		B 		:OUT std_logic_vector(15 DOWNTO 0);
 		tflags 		:OUT std_logic_vector(3 DOWNTO 0);
@@ -34,6 +34,7 @@ END ENTITY FORWARDING_UNIT;
 ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 	BEGIN
 	Process (ALL)
+	variable tempflags : std_logic_vector(3 DOWNTO 0);
 	BEGIN
 	stall <= '0';
 	
@@ -96,18 +97,23 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 	
 	
 	if (op_mem >= "00010" and op_mem <= "00011") or (op_mem >= "00111" and op_mem <= "01001") or (op_mem >= "01100" and op_mem <= "10000") or (op_mem >= "10100" and op_mem <= "11000")   or (op_mem >= "11100" and op_mem <= "11101") then
-		tflags <= tflags_mem;
+		tempflags := tflags_mem;
 	elsif op_mem = "00100" and ((op_mem >= "00111" and op_mem <= "01001") or (op_mem >= "01110" and op_mem <= "01111") or op_mem = "11111") then
 		stall <= '1';
 	elsif (op_wb >= "00010" and op_wb <= "00011") or (op_wb >= "00111" and op_wb <= "01001") or (op_wb >= "01100" and op_wb <= "10000") or (op_wb >= "10100" and op_wb <= "11000")   or (op_wb >= "11100" and op_wb <= "11101") or op_wb = "00100" then
-		tflags <= tflags_wb;
+		tempflags := tflags_wb;
 	else
-		tflags <= tflags_alu;
+		tempflags := tflags_alu;
 	end if;
 
 
-	
 
+	if op_alu = "11111" then
+		A(15 downto 12) <= tempflags;
+		A(11 downto 0) <= PC_dec(11 downto 0);
+	end if;
+
+	tflags <= tempflags;
 	
 	
 	

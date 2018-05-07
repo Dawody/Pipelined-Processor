@@ -17,15 +17,19 @@ namespace Assembler
             int i;
             for ( i = 0; i <= 9; i++)
             {
-                    Iwriter.WriteLine("  "+ i +": "+data[i]);
+                    Iwriter.WriteLine("   "+ i +": "+data[i]);
             }
             for ( i = 10; i <= 99; i++)
             {
+                    Iwriter.WriteLine("  " + i + ": " + data[i]);
+            }
+            for (i = 100; i <= 999; i++)
+            {
                     Iwriter.WriteLine(" " + i + ": " + data[i]);
             }
-            for (i = 100; i <= 255; i++)
+            for (i = 1000; i <= 1023; i++)
             {
-                    Iwriter.WriteLine( i + ": " + data[i]);
+                Iwriter.WriteLine("" + i + ": " + data[i]);
             }
             Iwriter.Close();
         }

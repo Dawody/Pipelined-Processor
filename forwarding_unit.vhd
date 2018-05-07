@@ -24,6 +24,7 @@ ENTITY FORWARDING_UNIT IS
 		aluo2_wb 	: IN std_logic_vector(15 DOWNTO 0);
 		memo_wb 	: IN std_logic_vector(15 DOWNTO 0);
 		PC_dec 		: IN std_logic_vector(15 DOWNTO 0);
+		IN_signal	: IN std_logic_vector(15 DOWNTO 0);
 		A 		:OUT std_logic_vector(15 DOWNTO 0);
 		B 		:OUT std_logic_vector(15 DOWNTO 0);
 		tflags 		:OUT std_logic_vector(3 DOWNTO 0);
@@ -65,6 +66,8 @@ ARCHITECTURE FORWARDING_UNIT_ARCH OF FORWARDING_UNIT IS
 		end if;
 	elsif op_alu = "11010" OR op_alu = "11011" OR op_alu = "11001" then
 		A <= rsrc;
+	elsif op_alu = "10010" then
+		A <= IN_signal;
 	end if;
 	
 	

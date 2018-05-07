@@ -308,6 +308,16 @@ begin
 	IF(temparith(n-1) /= temparith(n-2)) THEN tempflag(3) := '1';
 	ELSE tempflag(3) := '0';
 	END IF;
+
+	ELSIF (sel = "11110") THEN -- reset
+	tempaluo1 := (others=>'0');
+	tempaluo2 := (others=>'0');
+	tempflag := tempflag;
+
+	ELSIF (sel = "11111") THEN -- interrupt
+	tempaluo1 := (others=>'0');
+	tempaluo2 := (others=>'0');
+	tempflag := tempflag;
 	
 	END IF;
 	----------------------------------EEEEENNNNNDDDDD-------------------------------------------------------------

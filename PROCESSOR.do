@@ -43,3 +43,4 @@ force -freeze sim:/processor/RESET 0 0
 force -freeze sim:/processor/CLK 1 0, 0 {50 ps} -r 100
 mem load -i /home/dawod/ARCH/Pipelined-Processor/IR_RAM.mem /processor/F/RAM/MEMORY
 mem load -i /home/dawod/ARCH/Pipelined-Processor/REG.mem /processor/D/REG_FILE/REG_MEMORY
+mem load -i /home/dawod/ARCH/Pipelined-Processor/MEM.mem /processor/M/my_memory/Memory

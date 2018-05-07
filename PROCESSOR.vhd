@@ -203,12 +203,14 @@ END COMPONENT;
 COMPONENT Memory_stage IS
 	PORT(
 --ADD IT TO PORT MAP		clk 	: IN std_logic;
+	        Flags   	: in std_logic_vector(3 downto 0);
 		A 		: in std_logic_vector(DATA_SIZE-1 DOWNTO 0);
 		B		: in std_logic_vector(DATA_SIZE-1 DOWNTO 0);
 		MEM		: in std_logic_vector(1 downto 0);
 		OP_MEM		: in std_logic_vector(OPCODE_SIZE-1 DOWNTO 0);
 		MEMO		:out std_logic_vector(DATA_SIZE-1 DOWNTO 0);
 		M_1	:OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+		Flags_out:out std_logic_vector(3 downto 0);
 		FLUSH2		:out std_logic
 	);
 END COMPONENT;
@@ -559,12 +561,14 @@ BEGIN
 
 
 	M : Memory_stage PORT MAP(
+        	Flags   => FLAGS_B_M,
 		A 	=> A_B_M , 
 		B 	=> B_B_M , 
 		MEM 	=> MEM_R_W_B_M , 
 		OP_MEM 	=> OPERATION_B_M , 
 		MEMO 	=> MEMO_M_X ,
 		M_1 	=> M_1_M_F ,
+		Flags_out=>FLAGS_M_B ,
 		FLUSH2 	=> FLU2_M_X
 	);
 
@@ -627,7 +631,7 @@ BEGIN
 	ALUO2_M_B	  <= ALUO2_B_M ;
 	R_SRC_ADRS_M_B	  <= R_SRC_ADRS_B_M ;
  	R_DST_ADRS_M_B	  <= R_DST_ADRS_B_M ;
- 	FLAGS_M_B	  <= FLAGS_B_M ;
+-- 	FLAGS_M_B	  <= FLAGS_B_M ;
 	FE_M_B	  	  <= FE_B_M ;
 	A_M_B 		  <= A_B_M;
 	B_M_B 		  <= B_B_M;

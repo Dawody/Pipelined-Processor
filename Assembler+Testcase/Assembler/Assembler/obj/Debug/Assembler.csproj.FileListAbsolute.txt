@@ -16,3 +16,11 @@ C:\Users\HeshamMahmoud95\Desktop\Assembler+Testcase\Assembler\Assembler\obj\Debu
 C:\Users\HeshamMahmoud95\Desktop\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
 C:\Users\HeshamMahmoud95\Desktop\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
 C:\Users\HeshamMahmoud95\Desktop\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.exe
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.pdb
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\bin\Debug\Assembler.exe
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\bin\Debug\Assembler.pdb
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache

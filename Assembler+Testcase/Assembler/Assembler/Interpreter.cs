@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+//C:\intelFPGA_pro\17.0\Pipelined_Processor
 namespace Assembler
 {
     class Interpreter
     {
         public List<string> Binaries;
+        public List<string> Binaries2;
         Read fileRead;
         Write writeFile;
+        Write WriteFile2;
 
         public Interpreter()
         {
             Binaries = new List<string>(1024);
-            for (int i = 0; i <1024; i++)
+            Binaries2 = new List<string>(1024);
+            for (int i = 0; i < 1024; i++)
+            {
+                Binaries2.Add("0000000000000000");
                 Binaries.Add("0000000000000000");
+            }
+
             writeFile = new Write();
+            WriteFile2 = new Write();
         }
 
         public void Clear()
@@ -24,6 +32,7 @@ namespace Assembler
             for (int i = 0; i <1024; i++)
             {
                 Binaries[i] = "0000000000000000";
+                Binaries2[i] = "0000000000000000";
             }
         }
 
@@ -175,7 +184,7 @@ namespace Assembler
                                 }
                                 if (oper2 >1023)
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 words only";
+                                    msgError = "you exceed the limit of the memory. The memory is 1023 words only";
                                     return i;
                                 }
                                 string  ea = System.Convert.ToString(oper2, 2);
@@ -200,8 +209,9 @@ namespace Assembler
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                else Code += reg;
-                                Code += "00000000";
+                                else Code += "000";
+                                Code += reg;
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
                                 Code = "";
@@ -248,7 +258,7 @@ namespace Assembler
                                 }
                                 if (oper2 > 1023)
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
+                                    msgError = "you exceed the limit of the memory. The memory is 1023 bytes only";
                                     return i;
                                 }
 
@@ -938,9 +948,9 @@ namespace Assembler
                                 if (opcode[0] == '.' && datas.Count == 1)
                                 {
                                     UInt16 add = (UInt16)System.Convert.ToInt16(opcode.Substring(1));
-                                    if (add > 255)
+                                    if (add > 1023)
                                     {
-                                        msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
+                                        msgError = "you exceed the limit of the memory. The memory is 1023 bytes only";
                                         return i;
                                     }
                                     else
@@ -963,7 +973,7 @@ namespace Assembler
                                             Code = Code.PadLeft(16, '0');
                                         else
                                             Code = Code.PadLeft(16, '1');
-                                        Binaries[address] = Code;
+                                        Binaries2[address] = Code;
                                         address++;
                                         break;
                                     }
@@ -973,17 +983,18 @@ namespace Assembler
                                 
                             }
                     }
-                    if (address > 255)
+                    if (address > 1023)
                     {
-                        msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
+                        msgError = "you exceed the limit of the memory. The memory is 1023 bytes only";
                         return i; 
                     }
                 }
-
                 int index = text.LastIndexOf('.');
                 string path = text.Substring(0, index+1);
+                string path2 = text.Substring(0, index) +"ram" + ".mem";
                 path += "mem";
                 writeFile.WriteFile(path, Binaries);
+                WriteFile2.WriteFile(path2, Binaries2);
                 return -1;
             }
             catch(Exception exc)

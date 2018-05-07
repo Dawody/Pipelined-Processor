@@ -255,6 +255,7 @@ COMPONENT WB_stage IS
 		ALUO2	: in std_logic_vector(15 downto 0);
 	
 		OP_WB	: in std_logic_vector(4 downto 0);
+		OUT_op  :out std_logic_vector(15 downto 0);
 		DATA1	:out std_logic_vector(15 downto 0);
 		DATA2 	:out std_logic_vector(15 downto 0));
 END COMPONENT;
@@ -610,6 +611,7 @@ BEGIN
 		MEMO 	=> MEMO_B_W ,
 		ALUO2 	=> ALUO2_B_W ,
 		OP_WB	=> OPERATION_B_W ,
+		OUT_op	=> OUTT ,
 		DATA1	=> DATA1_W_D ,
 		DATA2	=> DATA2_W_D
 	);

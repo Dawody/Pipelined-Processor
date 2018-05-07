@@ -10,6 +10,9 @@ ENTITY WB_stage IS
 		ALUO2	: in std_logic_vector(15 downto 0);
 	
 		OP_WB	: in std_logic_vector(4 downto 0);
+-----new for out instruction write back---------------------
+		OUT_op  :out std_logic_vector(15 downto 0);
+-------------------------------------------------------------
 		DATA1	:out std_logic_vector(15 downto 0);
 		DATA2 	:out std_logic_vector(15 downto 0));
 END ENTITY WB_stage;
@@ -67,5 +70,6 @@ ts4:tri_state  port map(MEMO ,tr3_en,tr4_out);
 
 mux3_WB_comp:mux3_WB port map (tr0_out,tr1_out,tr2_out,OP_WB,DATA1);
 mux2_WB_comp:mux2_WB port map (tr3_out,tr4_out,OP_WB,DATA2);
-
+OUT_op<=tr0_out when OP_WB(4 downto 0)="10001"
+else  (others=>'Z');
 END  Arch_WB_stage;

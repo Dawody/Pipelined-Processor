@@ -39,7 +39,9 @@ generic (n:integer:=16);
 
 		IR_DEC 		: IN STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 		PC		: IN STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
+		IN_sig		: IN STD_LOGIC_VECTOR(DATA_SIZE-1 DOWNTO 0);
 		IMMD_4BIT	: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+		
 
 
 		FLAG_OUT	:OUT STD_LOGIC_VECTOR(FLAG_SIZE-1 DOWNTO 0);
@@ -101,7 +103,7 @@ COMPONENT FORWARDING_UNIT IS
 
 		memo_wb 	: IN std_logic_vector(15 DOWNTO 0);
 		PC_dec 		: IN std_logic_vector(15 DOWNTO 0);
-
+		IN_signal	: IN std_logic_vector(15 DOWNTO 0);
 		A 		:OUT std_logic_vector(15 DOWNTO 0);
 		B 		:OUT std_logic_vector(15 DOWNTO 0);
 		tflags 		:OUT std_logic_vector(3 DOWNTO 0);
@@ -166,6 +168,7 @@ BEGIN
 
 		memo_wb  	=> MEMO_WB ,
 		PC_dec  	=> PC ,
+		IN_signal	=> IN_sig,
 
 
 		A  		=> ALU_A ,

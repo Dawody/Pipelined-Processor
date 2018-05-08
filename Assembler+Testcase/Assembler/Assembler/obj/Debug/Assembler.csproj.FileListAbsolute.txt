@@ -24,3 +24,11 @@ A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testc
 A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
 A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
 A:\year3_2nd_term\architecture\project\final\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.exe
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.pdb
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\bin\Debug\Assembler.exe
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\bin\Debug\Assembler.pdb
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+D:\2archief2018\Computer Architecture\pip\Pipelined-Processor\Assembler+Testcase\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache

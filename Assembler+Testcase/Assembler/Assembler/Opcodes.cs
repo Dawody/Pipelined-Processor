@@ -217,7 +217,7 @@ namespace Assembler
                 return "11101";
             }
         }
-        static public string Rset
+        static public string Reset
         {
             get
             {

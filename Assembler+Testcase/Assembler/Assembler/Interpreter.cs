@@ -9,6 +9,7 @@ namespace Assembler
     {
         public List<string> Binaries;
         public List<string> Binaries2;
+        int flag_ldm_op=0;
         Read fileRead;
         Write writeFile;
         Write WriteFile2;
@@ -92,6 +93,7 @@ namespace Assembler
                                 Code += "00000000000";
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "setc":
@@ -105,6 +107,113 @@ namespace Assembler
                                 Code += "00000000000";
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 0;
+                                break;
+                            }
+                        case "shl":
+                            {
+                                Code = InstructionsOpcode.SHL;
+                                if (datas.Count != 4)
+                                {
+                                    msgError = "Unexpected number of operands";
+                                    return i;
+                                }
+
+                                string reg = FetchOperand(datas[1]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                               
+                                reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                int oper2 = System.Convert.ToInt32(datas[2]);
+                                if (oper2 <= 1)
+                                    Code += "000";
+                                else if (oper2 <= 3)
+                                    Code += "00";
+                                else if (oper2 <= 7)
+                                    Code += "0";
+                                string sh = System.Convert.ToString(oper2, 2);
+                                Code += sh;
+                                Code += "0";
+                                Binaries[address] = Code;
+                                address++;
+                                flag_ldm_op = 0;
+                                break;
+                            }
+                        case "shr":
+                            {
+                                Code = InstructionsOpcode.SHR;
+                                if (datas.Count != 4)
+                                {
+                                    msgError = "Unexpected number of operands";
+                                    return i;
+                                }
+
+                                string reg = FetchOperand(datas[1]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+
+                                reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                int oper2 = System.Convert.ToInt32(datas[2]);
+                                if (oper2 <= 1)
+                                    Code += "000";
+                                else if (oper2 <= 3)
+                                    Code += "00";
+                                else if (oper2 <= 7)
+                                    Code += "0";
+                                string sh = System.Convert.ToString(oper2, 2);
+                                Code += sh;
+                                Code += "0";
+                                Binaries[address] = Code;
+                                address++;
+                                flag_ldm_op = 0;
+                                break;
+                            }
+                        case "interrupt":
+                            {
+                                Code = InstructionsOpcode.Interrupt;
+                                if (datas.Count != 1)
+                                {
+                                    msgError = "Unexpected Operand";
+                                    return i;
+                                }
+                                Code += "11100000000";
+                                Binaries[address] = Code;
+                                address++;
+                                flag_ldm_op = 0;
+                                break;
+                            }
+                        case "reset":
+                            {
+                                Code = InstructionsOpcode.Reset;
+                                if (datas.Count != 1)
+                                {
+                                    msgError = "Unexpected Operand";
+                                    return i;
+                                }
+                                Code += "00000000000";
+                                Binaries[address] = Code;
+                                address++;
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "clrc":
@@ -118,6 +227,7 @@ namespace Assembler
                                 Code += "00000000000";
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "ldd":
@@ -128,7 +238,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                 Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -192,6 +302,7 @@ namespace Assembler
                                 Code += ea;
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "std":
@@ -203,14 +314,14 @@ namespace Assembler
                                     return i;
                                 }
 
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                else Code += "000";
-                                Code += reg;
+                                else Code += reg;
                                 Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
@@ -267,17 +378,26 @@ namespace Assembler
                                 Code += ea;
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "ldm":
                             {
+                                if(flag_ldm_op==1)
+                                {
+                                    Code += "0000000000000000";
+                                    Binaries[address] = Code;
+                                    address++;
+                                    Code = "";
+                                }
+                                Code = "";
                                 Code = InstructionsOpcode.LDM;
                                 if (datas.Count != 3)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -400,6 +520,7 @@ namespace Assembler
                                 Code += imm;
                                 Binaries[address] = Code;
                                 address++;
+                                flag_ldm_op = 1;
                                 break;
                             }
                         case "add":
@@ -428,7 +549,7 @@ namespace Assembler
                                 Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "sub":
@@ -457,7 +578,7 @@ namespace Assembler
                                 Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "and":
@@ -486,7 +607,7 @@ namespace Assembler
                                 Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
 
@@ -517,7 +638,7 @@ namespace Assembler
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "not":
@@ -528,7 +649,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -537,11 +658,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "inc":
@@ -552,7 +673,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -561,11 +682,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "dec":
@@ -576,7 +697,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -585,11 +706,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "mul":
@@ -618,7 +739,7 @@ namespace Assembler
                                 Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
 
@@ -630,7 +751,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -639,11 +760,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "rrc":
@@ -655,7 +776,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -664,11 +785,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "push":
@@ -680,7 +801,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "111";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -689,11 +810,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "pop":
@@ -705,7 +826,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "111";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -713,11 +834,11 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "out":
@@ -729,7 +850,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -738,11 +859,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "in":
@@ -754,7 +875,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -763,11 +884,11 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "mov":
@@ -797,7 +918,7 @@ namespace Assembler
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "jmp":
@@ -808,7 +929,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -817,10 +938,10 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "jz":
@@ -831,7 +952,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -839,10 +960,10 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "jn":
@@ -853,7 +974,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -861,10 +982,10 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "jc":
@@ -875,7 +996,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -883,10 +1004,10 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "call":
@@ -897,7 +1018,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "111";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -905,10 +1026,10 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "ret":
@@ -919,11 +1040,11 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-                                Code += "00000000000";
+                                Code += "00011100000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                         case "rti":
@@ -935,11 +1056,11 @@ namespace Assembler
                                     return i;
                                 }
 
-                                Code += "00000000000";
+                                Code += "00011100000";
 
                                 Binaries[address] = Code;
                                 address++;
-
+                                flag_ldm_op = 0;
                                 break;
                             }
                          default:
@@ -1007,20 +1128,18 @@ namespace Assembler
         public string FetchOperand(string s)
         {
             if (s == "r0")
-                return "000";
-            else if(s == "r1")
                 return "001";
-            else if(s == "r2")
+            else if(s == "r1")
                 return "010";
-            else if(s == "r3")
+            else if(s == "r2")
                 return "011";
-            else if (s == "r4")
+            else if(s == "r3")
                 return "100";
-            else if (s == "r5")
+            else if (s == "r4")
                 return "101";
-            else if (s == "r6")
+            else if (s == "r5")
                 return "110";
-            else if (s == "r7")
+            else if (s == "r6")
                 return "111";
             else return "";
         }

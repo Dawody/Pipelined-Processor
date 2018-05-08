@@ -135,10 +135,10 @@ namespace Assembler
                                     msgError = "Unexpected operand: "+reg;
                                     return i;
                                 }
-                                else Code += reg;
-
-                               Code += "00000000";
-                               Binaries[address] = Code;
+                                else Code += "000";
+                                Code += reg;
+                                Code += "00000";
+                                Binaries[address] = Code;
                                 address++;
                                 Code = "";
                                 UInt32 oper2 = System.Convert.ToUInt32(datas[2]);
@@ -284,9 +284,9 @@ namespace Assembler
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                else Code += reg;
-
-                                Code += "00000000";
+                                else Code += "000";
+                                Code += reg;
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
                                 Code = "";

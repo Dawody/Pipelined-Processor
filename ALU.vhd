@@ -282,7 +282,8 @@ begin
 	ELSIF (sel = "11100") THEN -- shl src, imm, dst
 	temparith := (others=>'0');
 	iem := to_integer(unsigned(IEM2));
-	temparith(n-1 DOWNTO iem-1) := A(((n-1) - (iem-1)) DOWNTO 0);
+--	temparith(n-1 DOWNTO iem-1) := A(((n-1) - (iem-1)) DOWNTO 0);
+	temparith(n-1 DOWNTO iem) := A(((n-1) - iem) DOWNTO 0);
 	tempaluo1 :=  temparith(n-1 DOWNTO 0);
 	tempaluo2 := (others=>'0');
 	IF(temparith = (temparith'range => '0')) THEN tempflag(0) := '1';
